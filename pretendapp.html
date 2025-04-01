@@ -6,16 +6,41 @@
   <title>Video Upload</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #050a30; /* New background color */
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      color: #c5badc; /* New text color */
-    }
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #c5badc; /* New text color */
+  background: 
+    linear-gradient(to bottom right, #04071d, #322c79, #6090e7); /* Gradient as background */
+  background-size: cover; /* Ensure gradient covers the entire background */
+}
+
+#content {
+  width: 80%;
+  max-width: 1000px;
+  padding: 20px;
+  position: relative; /* Position container content for overlay */
+}
+
+body::before {
+  content: "";
+  position: absolute;
+  top: 10px; /* Adjust position of image */
+  left: 10px; /* Adjust position of image */
+  width: 150px; /* Adjust size of image */
+  height: 75px; /* Adjust size of image */
+  background-image: url('/images/viralbaseicon.png'); /* Path to your PNG image */
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 1; /* Ensure the image is on top of the background gradient */
+}
+
+
+
 
     .container {
       width: 80%;
@@ -32,12 +57,12 @@
     }
 
     #dropContainer {
-      border: 2px dashed #305090; /* New border color */
+      border: 2px dashed #385fac; /* New border color */
       height: 100px;
       text-align: center;
       line-height: 100px;
       margin-bottom: 20px;
-      color: #3d66b9; /* New text color */
+      color: #305090; /* New text color */
       font-size: 18px;
       border-radius: 8px;
       cursor: pointer;
@@ -129,11 +154,11 @@
 <body>
 
   <div class="container">
-    <h1>Upload Video for Transcription</h1>
+    <h1>Video Upload</h1>
     <div id="dropContainer">
       Drop Here
     </div>
-    <p>Your analysis will appear below:</p>
+    <p>Analysis will appear below:</p>
     <div id="output"></div> <!-- This will hold the transcription table -->
 
     <!-- Spinner container placed above the "Choose File" button -->
@@ -151,6 +176,15 @@
     const fileInput = document.getElementById("fileInput");
     const outputDiv = document.getElementById("output");
     const loadingDiv = document.getElementById("loading");
+
+    fileInput.addEventListener('change', function(evt) {
+        evt.preventDefault();
+        const file = event.target.files[0]; // Get the first selected file
+  
+        if (file) {
+            uploadFile(file);
+        }
+    })
 
     dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
       evt.preventDefault();
