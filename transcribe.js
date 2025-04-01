@@ -22,7 +22,6 @@ function getLatestVideo() {
 
 // Get the latest video file
 const videoPath = getLatestVideo();
-console.log("Processing video:", videoPath);
 
 let transcript = ""
 // Execute the Python script that uses Whisper to transcribe the video
@@ -37,7 +36,7 @@ exec(`python transcribe.py "${videoPath}"`, (err, stdout, stderr) => {
     }
 
     if (stdout.trim()) {
-        console.log('Transcription:', stdout);  // Output transcription
+        //console.log('Transcription:', stdout);  // Output transcription
         transcript = stdout;
         analyzeTranscription(transcript);
     } else {
@@ -50,11 +49,10 @@ exec(`python transcribe.py "${videoPath}"`, (err, stdout, stderr) => {
 const apiKey = process.env.API_KEY
 
 async function analyzeTranscription(transcriptionText) {
-    console.log(transcriptionText)
     const url = 'https://api.openai.com/v1/chat/completions';
     const prompt = `Give an optimal title, a list of SEO key words one can easily paste into their description if they wanted to maximize the chances
-                    of their content being seen on browsers, and give a summary of current related content trends all in an html tabular format
-                    if their content has the following audio transcription:\n\n${transcriptionText}`;
+                    of their content being seen on browsers, and give a summary of current related content trends all in a json format {title: title here, keywords: [list], trends_summary: summary}
+                    if their content has the following audio transcription:\n\n${transcriptionText}. Return only the json and only the json`;
     
     try {
         const response = await axios.post(
@@ -75,7 +73,7 @@ async function analyzeTranscription(transcriptionText) {
             }
         );
         
-        console.log('GPT Analysis:', response.data.choices[0].message.content);
+        console.log(response.data.choices[0].message.content);
     } catch (error) {
         console.error('Error with GPT analysis:', error);
     }

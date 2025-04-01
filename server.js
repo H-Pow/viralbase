@@ -65,23 +65,41 @@ app.post("/upload-video", upload.single("video"), (req, res) => {
             console.error("Error running script:", err);
         }
         if (stderr) {
-            console.error("Script stderr:", stderr);
         }
-        console.log("Script output:", stdout);
-    });
+        console.log(stdout);
 
-    res.json({
-        message: "Upload successful, processing video...",
-        url: videoUrl,
-    });
+        try {
+            // Parse the stdout to convert it into a JSON object
+            let cleanString = stdout.trim();
+
+            // Try to extract the actual JSON part
+            let jsonStart = cleanString.indexOf("{");
+            let jsonEnd = cleanString.lastIndexOf("}");
+
+            if (jsonStart !== -1 && jsonEnd !== -1) {
+            cleanString = cleanString.substring(jsonStart, jsonEnd + 1);
+            } // Only allow valid JSON characters
+
+            const transcriptionData = JSON.parse(cleanString);
+
+            console.log(transcriptionData)
+            // Send the formatted JSON in the response
+            res.json({
+                message: "Upload successful, processing complete!",
+                url: videoUrl,
+                transcription: transcriptionData // Include the parsed JSON
+            });
+        } catch (parseError) {
+            console.error("Error parsing JSON:", parseError);
+            return res.status(500).json({ error: "Failed to parse transcription output" });
+        }
+    })
 
 
 
     // Delete the file after 10 seconds
     setTimeout(() => {
         fs.unlink(filePath, (err) => {
-            if (err) console.error("Failed to delete file:", err);
-            else console.log("File deleted:", filePath);
         });
     }, 10000); // 10 seconds
 });

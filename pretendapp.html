@@ -5,11 +5,13 @@
      Drop Here
   </div>
   <p>Should update here:</p>
+  <div id="output"></div> <!-- This will hold the transcription table -->
   <input type="file" id="fileInput" />
 
   <script>
     const dropContainer = document.getElementById("dropContainer");
     const fileInput = document.getElementById("fileInput");
+    const outputDiv = document.getElementById("output");
 
     dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
       evt.preventDefault();
@@ -29,17 +31,75 @@
     function uploadFile(file) {
       const formData = new FormData();
       formData.append("video", file);
+      console.log("HEY");
 
       fetch("http://localhost:3000/upload-video", {
         method: "POST",
         body: formData
       })
-      .then(response => response.json())
+      .then(response => response.json())  // Expecting JSON
       .then(data => {
-        console.log("Upload successful:", data);
+        console.log("Received data:", data);
+
+        if (data.transcription) {
+          // Assuming data.transcription is an array of objects
+          createTable(data.transcription);
+        } else {
+          outputDiv.innerHTML = "<p>No transcription data found.</p>";
+        }
       })
       .catch(error => console.error("Upload failed:", error));
     }
+
+    function createTable(transcriptionData) {
+    // Log the transcriptionData to check its structure
+    console.log("Transcription Data:", transcriptionData);
+
+    // Check if transcriptionData is an object
+    if (typeof transcriptionData === 'object' && transcriptionData !== null) {
+        
+        // Create a table element
+        let table = document.createElement("table");
+        table.style.border = "1px solid black";
+        table.style.borderCollapse = "collapse";
+        
+        // Create table header (keys of the transcriptionData object)
+        let header = table.createTHead();
+        let headerRow = header.insertRow();
+        
+        // Iterate over the keys of the transcriptionData object
+        Object.keys(transcriptionData).forEach(key => {
+            let cell = headerRow.insertCell();
+            cell.innerText = key;
+            cell.style.fontWeight = "bold";
+            cell.style.padding = "5px";
+            cell.style.border = "1px solid black";
+        });
+
+        // Create a table body and insert the single row of data
+        let tbody = table.createTBody();
+        let row = tbody.insertRow();
+
+        // Iterate over the values of the transcriptionData object to fill in the row
+        Object.values(transcriptionData).forEach(value => {
+            if (value instanceof Array) {
+                value = value.join(", ");
+            }
+            let cell = row.insertCell();
+            cell.innerText = value;
+            cell.style.padding = "5px";
+            cell.style.border = "1px solid black";
+        });
+
+        // Clear previous output and append the new table
+        outputDiv.innerHTML = "";  // Clear any existing content
+        outputDiv.appendChild(table);
+
+    } else {
+        console.error("Invalid data format. Please ensure transcriptionData is a valid object.");
+    }
+}
+
   </script>
 </body>
 </html>
