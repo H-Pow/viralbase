@@ -6,41 +6,38 @@
   <title>Video Upload</title>
   <style>
     body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  color: #c5badc; /* New text color */
-  background: 
-    linear-gradient(to bottom right, #04071d, #322c79, #6090e7); /* Gradient as background */
-  background-size: cover; /* Ensure gradient covers the entire background */
-}
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #c5badc; /* New text color */
+      background: 
+        linear-gradient(to bottom right, #04071d, #322c79, #6090e7); /* Gradient as background */
+      background-size: cover; /* Ensure gradient covers the entire background */
+    }
 
-#content {
-  width: 80%;
-  max-width: 1000px;
-  padding: 20px;
-  position: relative; /* Position container content for overlay */
-}
+    #content {
+      width: 80%;
+      max-width: 1000px;
+      padding: 20px;
+      position: relative; /* Position container content for overlay */
+    }
 
-body::before {
-  content: "";
-  position: absolute;
-  top: 10px; /* Adjust position of image */
-  left: 10px; /* Adjust position of image */
-  width: 150px; /* Adjust size of image */
-  height: 75px; /* Adjust size of image */
-  background-image: url('/images/viralbaseicon.png'); /* Path to your PNG image */
-  background-size: contain;
-  background-repeat: no-repeat;
-  z-index: 1; /* Ensure the image is on top of the background gradient */
-}
-
-
-
+    body::before {
+      content: "";
+      position: absolute;
+      top: 10px; /* Adjust position of image */
+      left: 10px; /* Adjust position of image */
+      width: 150px; /* Adjust size of image */
+      height: 75px; /* Adjust size of image */
+      background-image: url('/images/viralbaseicon.png'); /* Path to your PNG image */
+      background-size: contain;
+      background-repeat: no-repeat;
+      z-index: 1; /* Ensure the image is on top of the background gradient */
+    }
 
     .container {
       width: 80%;
@@ -149,6 +146,17 @@ body::before {
       font-weight: bold;
       text-align: center;
     }
+
+    /* Style for video */
+    video {
+      width: 100%;
+      max-width: 600px;
+      margin-top: 20px;
+      border-radius: 8px;
+      display: none; /* Hide initially */
+      margin-left: auto; /* Center horizontally */
+      margin-right: auto; /* Center horizontally */
+    }
   </style>
 </head>
 <body>
@@ -158,6 +166,9 @@ body::before {
     <div id="dropContainer">
       Drop Here
     </div>
+
+    <!-- Move "Choose File" button right below the drop container -->
+    <button class="upload-button" onclick="fileInput.click()">Choose File</button>
     <p>Analysis will appear below:</p>
     <div id="output"></div> <!-- This will hold the transcription table -->
 
@@ -167,8 +178,10 @@ body::before {
       <p>Loading...</p>
     </div>
 
+    <!-- Video element to display uploaded video -->
+    <video id="videoPlayer" controls></video>
+
     <input type="file" id="fileInput" />
-    <button class="upload-button" onclick="fileInput.click()">Choose File</button>
   </div>
 
   <script>
@@ -176,16 +189,19 @@ body::before {
     const fileInput = document.getElementById("fileInput");
     const outputDiv = document.getElementById("output");
     const loadingDiv = document.getElementById("loading");
+    const videoPlayer = document.getElementById("videoPlayer");
 
+    // File selection via input
     fileInput.addEventListener('change', function(evt) {
         evt.preventDefault();
-        const file = event.target.files[0]; // Get the first selected file
+        const file = evt.target.files[0]; // Get the first selected file
   
         if (file) {
             uploadFile(file);
         }
-    })
+    });
 
+    // Handle drag and drop functionality
     dropContainer.ondragover = dropContainer.ondragenter = function(evt) {
       evt.preventDefault();
     };
@@ -198,6 +214,7 @@ body::before {
       }
     };
 
+    // Upload file function
     function uploadFile(file) {
       const formData = new FormData();
       formData.append("video", file);
@@ -206,6 +223,7 @@ body::before {
       loadingDiv.style.display = "block";
       outputDiv.innerHTML = ""; // Clear previous output
 
+      // Fetch API to upload file
       fetch("http://localhost:3000/upload-video", {
         method: "POST",
         body: formData
@@ -229,8 +247,14 @@ body::before {
         console.error("Upload failed:", error);
         outputDiv.innerHTML = "<p class='error'>Upload failed. Please try again.</p>";
       });
+
+      // Create video URL and display it
+      const videoURL = URL.createObjectURL(file);
+      videoPlayer.src = videoURL; // Set the video player's source to the file URL
+      videoPlayer.style.display = "block"; // Make video visible
     }
 
+    // Function to create table for transcription data
     function createTable(transcriptionData) {
       console.log("Transcription Data:", transcriptionData);
 
@@ -262,5 +286,6 @@ body::before {
       }
     }
   </script>
+
 </body>
 </html>
