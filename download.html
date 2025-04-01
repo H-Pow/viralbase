@@ -15,42 +15,15 @@ body, html {
   line-height: 1.8;
 }
 
-/* Full height image header */
-.bgimg-1 {
-  background-position: right Top;
-  background-size: cover;
-  background-image: url("/images/—Pngtree—blue\ bar\ graph\ 3d\ icon_4045146.jpg");
-  min-height: 105%;
-}
+
 
 .w3-bar .w3-button {
   padding: 16px;
 }
 
 #myNavbar {
-    background-color: #0a0431 !important; /* Replace with your desired color */
+    background-color: #050a30 !important; /* Replace with your desired color */
     color: #ffffff !important;
-}
-
-
-
-/* Page background styling */
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #1e3c72, #2a5298); /* Nice blue gradient */
-    color: white;
-    text-align: center;
-    padding-top: 200px;
-}
-
-/* Download box styling */
-.downloads {
-    background: rgba(255, 255, 255, 0.1); /* Slight transparency */
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
-    display: inline-block;
-    max-width: 400px;
 }
 
 /* Download links styled as buttons */
@@ -74,10 +47,17 @@ body {
 /* Page background styling */
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    background: linear-gradient(135deg, #b5499c, #6d65e2);
     color: white;
     text-align: center;
     padding-top: 200px;
+}
+
+.downloads-container {
+    display: flex;
+    justify-content: space-evenly; /* Distribute boxes evenly */
+    flex-wrap: wrap; /* Allow wrapping if needed */
+    margin-bottom: 50px; /* Add space below the downloads box */
 }
 
 /* Download box styling */
@@ -86,9 +66,8 @@ body {
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
-    display: inline-block;
     max-width: 400px;
-    margin-bottom: 50px; /* Add space below the downloads box */
+    margin: 10px;
 }
 
 /* Footer styling */
@@ -108,7 +87,7 @@ footer {
 
   <div class="w3-top">
     <div class="w3-bar w3-white w3-card" id="myNavbar">
-      <a href="#home" class="w3-bar-item w3-button w3-wide"><img src="/images/viralbaseicon.png" alt="Dan" style="width:100%">
+      <a href="website.html#home" class="w3-bar-item w3-button w3-wide"><img src="/images/viralbaseicon.png" alt="Dan" style="width:100%">
       <!-- Right-sided navbar links -->
       <div class="w3-right w3-hide-small">
         <a href="website.html#about" class="w3-bar-item w3-button">ABOUT</a>
@@ -137,8 +116,9 @@ footer {
 <!-- Header with full-height image -->
 <body>
 
+  <div class="downloads-container">
     <div class="downloads">
-        <h2>Download ViralBase</h2>
+        <h2>Download ViralBase 1.2.8.1</h2>
         <a href="pretendapp.html" onclick="fakeDownload()">Download for Windows</a>
         <a href="pretendapp.html" onclick="fakeDownload()">Download for macOS</a>
         <a href="pretendapp.html" onclick="fakeDownload()">Download for Linux</a>
@@ -148,24 +128,41 @@ footer {
         <a href="pretendapp.html" onclick="fakeDownload()">Download iOS Version</a>
     </div>
 
-    <script>
-        function fakeDownload() {
-            alert("Download is currently unavailable. Please try again later.");
-        }
-    </script>
+    <div class="downloads">
+        <h2>Download ViralBase 1.2.8 (Mirror)</h2>
+        <a href="pretendapp.html" onclick="fakeDownload()">Download for Windows</a>
+        <a href="pretendapp.html" onclick="fakeDownload()">Download for macOS</a>
+        <a href="pretendapp.html" onclick="fakeDownload()">Download for Linux</a>
+        <a href="pretendapp.html" onclick="fakeDownload()">Download 32-bit Version</a>
+        <a href="pretendapp.html" onclick="fakeDownload()">Download 64-bit Version</a>
+        <a href="pretendapp.html" onclick="fakeDownload()">Download APK for Android</a>
+        <a href="pretendapp.html" onclick="fakeDownload()">Download iOS Version</a>
+    </div>
+
+    <div class="downloads">
+        <h2>Download ViralBase 1.3.9a</h2>
+        <a href="pretendapp.html" onclick="fakeDownload()">Download for Windows</a>
+        <a href="pretendapp.html" onclick="fakeDownload()">Download for macOS</a>
+        <a href="pretendapp.html" onclick="fakeDownload()">Download for Linux</a>
+        <a href="pretendapp.html" onclick="fakeDownload()">Download 32-bit Version</a>
+        <a href="pretendapp.html" onclick="fakeDownload()">Download 64-bit Version</a>
+        <a href="pretendapp.html" onclick="fakeDownload()">Download APK for Android</a>
+        <a href="pretendapp.html" onclick="fakeDownload()">Download iOS Version</a>
+    </div>
+</div>
 
 </body>
   
   <script>
   function fakeDownload() {
-    alert("Download is currently unavailable. Please try again later.");
+    alert("Download has started.");
   }
   </script>
 
 <!-- Footer -->
 <footer class="w3-center w3-black w3-padding-64">
-  <a href="#home" class="w3-button w3-light-grey"><i class="fa fa-arrow-up w3-margin-right"></i>To the top</a>
   <div class="w3-xlarge w3-section">
+    <i class="fa fa-youtube w3-hover-opacity"></i>
     <i class="fa fa-facebook-official w3-hover-opacity"></i>
     <i class="fa fa-instagram w3-hover-opacity"></i>
     <i class="fa fa-snapchat w3-hover-opacity"></i>
